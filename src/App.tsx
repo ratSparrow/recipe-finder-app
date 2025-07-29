@@ -7,6 +7,7 @@ import About from './pages/About'
 import Contact from './pages/Contact'
 import { Footer } from './components/Footer'
 import Favorites from './pages/Favourite'
+import RecipeDetails from './pages/RecipeDetails'
 
 function App() {
 
@@ -20,6 +21,7 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
            <Route path="/favorites" element={<Favorites />} />
+           <Route path="/recipe/:id" element={<RecipeDetails />} />
         </Routes>
       </main>
       <Footer />

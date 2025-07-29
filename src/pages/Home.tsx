@@ -12,9 +12,11 @@ import { useState } from "react";
 import { RecipeCard } from "../components/RecipeCard";
 import { SearchBar } from "../components/SearchBar";
 import { getRandomRecipe, getRecipe } from "../api/getRecipe";
+import { RandomRecipeModal } from "../components/RandomRecipeModal";
 
 const Home = () => {
   const [randomRecipe, setRandomRecipe] = useState<any | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [category, setCategory] = useState("");
   const [area, setArea] = useState("");
@@ -45,15 +47,19 @@ const Home = () => {
   });
 
   const handleRandomClick = async () => {
-  const result = await getRandomRecipe();
-  setRandomRecipe(result);
-  // Optionally scroll to view
-  document.getElementById("random-recipe")?.scrollIntoView({ behavior: "smooth" });
-};
+    const result = await getRandomRecipe();
+    setRandomRecipe(result);
+    setIsModalOpen(true);
+  };
 
 
   return (
     <div className="p-6 max-w-6xl mx-auto">
+      <RandomRecipeModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        recipe={randomRecipe}
+      />
       <h1 className="text-3xl font-bold mb-4">Recipe Finder 🍽️</h1>
 
       <div className="grid md:grid-cols-3 gap-4 mb-6">
@@ -85,6 +91,12 @@ const Home = () => {
         className="mb-6 bg-green-600 text-white px-4 py-2 rounded shadow hover:bg-green-700"
       >
         Search
+      </button>
+      <button
+        onClick={handleRandomClick}
+        className="bg-purple-600 text-white px-4 py-2 rounded shadow hover:bg-purple-700 ml-3"
+      >
+        Surprise Me
       </button>
 
       {isLoading && <p>Loading recipes...</p>}
